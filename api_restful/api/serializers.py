@@ -6,7 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'email', 'age', 'can_be_contacted', 'can_data_be_shared', 'password']
         extra_kwargs = {
-            'password': {'write_only': True},  # Le mot de passe est en "write_only"
+            'password': {'write_only': True}, 
         }
 
 class ContributorSerializer(serializers.ModelSerializer):

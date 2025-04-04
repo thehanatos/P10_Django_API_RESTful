@@ -31,7 +31,6 @@ class ContributorViewSet(viewsets.ModelViewSet):
 
 
 
-# ViewSet for users
 class UserViewSet(viewsets.ModelViewSet): 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
