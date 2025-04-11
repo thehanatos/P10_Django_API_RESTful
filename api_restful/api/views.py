@@ -8,13 +8,22 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from .models import CustomUser
 
-from .permissions import IsContributorOrAdmin, IsAuthorOrReadOnly, IsAuthorOrAdmin, IsAssigneeValid
+from .permissions import IsContributorOrAdmin, IsAuthorOrReadOnly, IsAuthorOrAdmin, IsAssigneeValid, IsContributorOrAdminProject
+from rest_framework import permissions
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     queryset = Project.objects.all()
-    permission_classes = [IsContributorOrAdmin, IsAuthorOrReadOnly, IsAuthorOrAdmin]
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    
+    def get_queryset(self):
+        return Project.objects.all()
+
+    def get_permissions(self):
+        if self.action == 'retrieve':
+            return [permissions.IsAuthenticated(), IsContributorOrAdminProject()]
+        return super().get_permissions()
 
 class IssueViewSet(viewsets.ModelViewSet):
     serializer_class = IssueSerializer

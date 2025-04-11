@@ -9,6 +9,19 @@ class IsContributorOrAdmin(permissions.BasePermission):
             return True  
         project_id = request.parser_context['kwargs'].get('project_pk') or request.data.get('project')
         return Contributor.objects.filter(project_id=project_id, user=request.user).exists()
+    
+class IsContributorOrAdminProject(permissions.BasePermission):
+    """
+    Autorise uniquement les contributeurs du projet ou les admins à accéder au détail.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Admin a tous les droits
+        if request.user.is_staff:
+            return True
+        
+        # Vérifie si l'utilisateur est contributeur du projet
+        return Contributor.objects.filter(project=obj, user=request.user).exists()
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
