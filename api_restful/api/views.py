@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from .models import CustomUser
 
-from .permissions import IsContributorOrAdmin, IsAuthorOrReadOnly, IsAuthorOrAdmin, IsAssigneeValid, IsContributorOrAdminProject
+from .permissions import IsContributorOrAdmin, IsAuthorOrReadOnly, IsAuthorOrAdmin, IsAssigneeValid, IsContributorOrAdminProject, IsSelfOrAdmin
 from rest_framework import permissions
 
 
@@ -62,4 +62,4 @@ class ContributorViewSet(viewsets.ModelViewSet):
 class UserViewSet(viewsets.ModelViewSet): 
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]  # Only logged users can see the list
+    permission_classes = [IsAuthenticated, IsSelfOrAdmin]  

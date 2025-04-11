@@ -49,3 +49,14 @@ class IsAuthorOrAdmin(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.author == request.user or request.user.is_staff
+
+
+class IsSelfOrAdmin(permissions.BasePermission):
+    """
+    Autorise uniquement l'utilisateur lui-même ou un admin à modifier/supprimer un user.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return request.user == obj or request.user.is_staff
