@@ -36,6 +36,9 @@ class Project(models.Model):
     type = models.CharField(choices=TYPE_CHOICES, max_length=10)
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
 
 
 class Issue(models.Model):
@@ -52,6 +55,9 @@ class Issue(models.Model):
     tag = models.CharField(choices=TAG_CHOICES, max_length=10, default='TASK')
     status = models.CharField(choices=STATUS_CHOICES, max_length=15, default='TODO')
     created_time = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
 
 
 import uuid
